@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+        <head>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        </head>
+        <body>
+            <script src="https://unpkg.com/vue"></script>
+            <nav class="navbar navbar-inverse">
+              <div class="container">
+
+              </div>
+            </nav>
+
+            <div id="app" class="container">
+              <header>
+                <h1 class="text-center ">{{title}}</h1>
+              </header>
+              <div class="row">
+                <form v-on:submit.prevent class="form-inline text-center">
+                  <div class="form-group">
+                    <label>Task</label>
+                    <input v-model="newTask" type="text" name="task">
+                  </div>
+                  <button @click="addNewTask" type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+              </div>
+              <div class="row">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Task</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(task, key) in tasks">
+                      <td>{{task.id}}</td>
+                      <td>{{task.task}}</td>
+                      <td><button @click="removeItem(key)" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    title: 'Welcome to Todo App',
+                    message:'hello vue again',
+                    tasks: [
+                      {id:1, task:'clean my room'},
+                      {id:2, task:'eat breakfast'},
+                      {id:3, task:'go to work'},
+                      {id:4, task:'sleep'}
+                    ],
+                    newTask: ''
+                },
+                methods:{
+                  addNewTask(){
+                    if (this.newTask != '') {
+                      this.tasks.push({id:this.tasks.length + 1, task:this.newTask});
+                      console.log(this.newTask);
+                    }
+                  },
+                  removeItem(index) {
+                    console.log(index);
+                    this.tasks.splice(index,1);
+                  }
+                }
+            });
+        </script>
+        </body>
+
+</html>

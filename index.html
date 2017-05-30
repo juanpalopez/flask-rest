@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="https://unpkg.com/vue"></script>
+    </head>
+    <body>
+
+        <div id="app">
+            <p>{{ message }}</p>
+        </div>
+
+        <div id="app-one">
+            <ul>
+                <li v-for="user in user_accounts">
+                    {{ user.id }}
+                </li>
+            </ul>
+        </div>
+    
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            });
+            
+            var apiURL = 'localhost:5000/users'
+            var app_one = new Vue({
+                el: '#app-one',
+                data: {
+                    user_accounts: []
+                },
+                created: function() {
+                    this.fetchData();
+                },
+                methods: {
+                    fetchData: function(){
+                        var xhr = new XMLHttpRequest()
+                        var self = this
+                        xhr.open('GET', apiURL)
+                        xhr.onload = function() {
+                            self.user_accounts = JSON.parse(xhr.responseText)
+                            console.log(self.user_accounts)
+                        }
+                    }
+                }
+
+            });
+        </script>
+    </body>
+</html
+

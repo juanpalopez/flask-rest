@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, fields, marshal_with
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,11 +9,16 @@ from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:findasecret@localhost/postgres'
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
+
+@app.after_request
+
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
 
 Base = declarative_base()
-engine = create_engine('postgresql://<user>:<password>@localhost/postgres')
+engine = create_engine('postgresql://juanpa:dagBMX20@localhost/todo')
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -39,7 +44,7 @@ class UserList(Resource):
 
 
 class User(Base):
-    __tablename__= 'User'
+    __tablename__= 'user_account'
 
     id = Column(Integer, primary_key=True)
     username = Column(String(80), unique=True)
